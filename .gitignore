@@ -24,3 +24,7 @@ portfolio-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+out
+node_modules
+.DS_Store
