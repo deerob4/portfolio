@@ -39,8 +39,8 @@ defmodule Portfolio do
           rel="stylesheet"
         />
       </head>
-      <body>
-        <div class="container">
+      <body class="h-full">
+        <div class="container h-full">
           <.header />
           <main>
             <%= render_slot(@inner_block) %>
@@ -59,6 +59,29 @@ defmodule Portfolio do
                 location.reload();
               }
             }
+
+            const eyes = document.querySelector(".eyes");
+            const container = document.querySelector(".container")
+            const modifier = 0.5
+            const maxEyeMovement = 6  ;
+
+            document.addEventListener("mousemove", (e) => {
+              const x = e.clientX / container.clientWidth + modifier;
+              const y = e.clientY / container.clientHeight - modifier;
+
+              const moveX = maxEyeMovement * x;
+              const moveY = maxEyeMovement * y;
+
+             eyes.style.transform = `translate(${moveX}px, ${moveY}px)`
+            });
+
+            const faceContainer = document.querySelector(".face-container")
+            const big = "face-container-big"
+
+            document.addEventListener("click", e => {
+               (faceContainer.classList.toggle("face-container-big"))
+
+            })
           </script>
         <% end %>
       </body>
@@ -68,14 +91,17 @@ defmodule Portfolio do
 
   defp header(assigns) do
     ~H"""
-    <header class="flex justify-between mb-10 items-center">
-      <h1 class="text-2xl font-display">
-        <a href="/" class="logo">Dee Roberts!</a>
-      </h1>
-
-      <div>
-        <button>🇳🇴</button>
+    <div class="face-container">
+      <img src="/assets/images/blank_eyes.png" width="130" class=" deilig" draggable="false" />
+      <div class="eyes">
+        <img src="/assets/images/left_eye.png" width="130" class="eye" draggable="false" />
+        <img src="/assets/images/right_eye.png" width="130" class="eye" draggable="false" />
       </div>
+    </div>
+    <header class="flex justify-between mb-10 items-center">
+      <h1 class="text-2xl font-display cursor-default select-none logo">
+        Dee Roberts!
+      </h1>
 
       <%!-- <nav>
         <ul class="flex gap-5">
@@ -91,17 +117,14 @@ defmodule Portfolio do
   def index(assigns) do
     ~H"""
     <.layout>
+      <div class="box" />
+
       <p>
-        Hi! I'm Dee, a full-stack software developer.
+        Hello! I'm Dee, a full-stack software developer.
       </p>
 
       <p>
         I love working on digital products. I take pride in ensuring that every part of a project, from the design of the UI to the code, is done with a high degree of quality and care. Often this means simplicity. Why make something complicated when it doesn't need to be?
-      </p>
-
-      <p>
-        I'm originally from a <a href="https://en.wikipedia.org/wiki/Shrewsbury">smallish town</a>
-        in the UK, but I've lived in Trondheim, Norway since 2019. In my spare time I enjoy baking (especially bread), reading, and learning Norwegian.
       </p>
 
       <p>
@@ -111,12 +134,21 @@ defmodule Portfolio do
       </p>
 
       <p>
-        You can see some of the projects I've worked on below, or you can read a bit more about my background.
+        I'm an especially dab hand with Elixir and TypeScript, but I have enough experience to use whichever set of technologies is the best fit for the job.
+        I also know that software development is a team sport, and that some things are good and others bad.
       </p>
 
-      <h2 class="text-xl mt-5 mb-5">Projects</h2>
+      <p>
+        I'm originally from a <a href="https://en.wikipedia.org/wiki/Shrewsbury">smallish town</a>
+        in the UK, but I've lived in Trondheim since 2019. In my spare time I enjoy baking (especially bread), reading anything I can get my hands on, and walking in the wonderful Norwegian nature.
+      </p>
 
-      <.projects />
+      <p>
+        Feel free to start scrolling if you want to see some of the projects I've worked on.
+      </p>
+
+      <%!-- <h2 class="text-xl mt-5 mb-5">Projects</h2>
+      <.projects /> --%>
     </.layout>
     """
   end
